@@ -1,0 +1,25 @@
+[project]
+name = "homeassistantbot"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "aiogram>=3.21.0",
+    "apscheduler>=3.11.0",
+    "bs4>=0.0.2",
+    "ddgs>=9.2.3",
+    "docker>=7.1.0",
+    "duckduckgo-search>=8.1.1",
+    "fastapi>=0.116.1",
+    "httpx>=0.24.1",
+    "jellyfin-api-client>=11.0.0",
+    "jellyfin-apiclient-python>=1.11.0",
+    "openai>=1.95.1",
+    "python-dotenv>=1.1.1",
+    "rapidfuzz>=3.13.0",
+    "requests>=2.32.4",
+    "rich>=14.0.0",
+    "setuptools>=80.9.0",
+    "uvicorn>=0.35.0",
+]
