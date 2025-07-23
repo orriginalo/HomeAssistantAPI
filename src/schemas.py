@@ -7,3 +7,6 @@ class Media(BaseModel):
 class Container(BaseModel):
     name: str
     state: str
+    
+class RestartContainers(BaseModel):
+    containers: str

@@ -1,13 +1,13 @@
 import json
 from fastapi import APIRouter, Request, WebSocket, WebSocketDisconnect
 
-from src.schemas import Container, Media
+from src.schemas import Container, Media, RestartContainers
 from src.globals import connection_manager, tmdb, matcher, ai, docker_manager
 
 router = APIRouter()
 
 @router.get("/docker/containers/list", tags=["docker"])
-async def list_containers(request: Request):
+async def list_containers():
     containers = docker_manager.get_containers()
     resp_containers = []
     for container in containers:
@@ -19,13 +19,16 @@ async def list_containers(request: Request):
     return resp_containers
 
 
-@router.get("/docker/containers/restart", tags=["docker"])
-
-
+@router.post("/docker/containers/restart", tags=["docker"])
+async def restart_containers(containers: RestartContainers):
+    containers_names = containers.containers.split("|")
+    for container_name in containers_names:
+        docker_manager.restart_container(container_name)
+    return {"message": "Containers restarted"}
 
 
 @router.post("/media/add", tags=["media"])
-async def add_movie(media: Media, request: Request):
+async def add_movie(media: Media):
     media_name = ai.get_kino_name(media.type, media.text)
     match media.type:
         case "movie":
@@ -37,7 +40,7 @@ async def add_movie(media: Media, request: Request):
     return movies
 
 @router.get('/process-command')
-async def process_command(text: str, request: Request):
+async def process_command(text: str):
     command = matcher.match(text)
     await connection_manager.send_to_user("bob606", json.dumps({'command': command.command}))
     return {'command': command}
